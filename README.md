@@ -55,11 +55,10 @@ This project is licensed under the GNU General Public License v3.0. See the [LIC
 
 Feel free to open issues or pull requests. Contributions are welcome!
 
-# Bonus
+# Data extraction & analysis
 
 <details><summary>Reproducing the extracted data from this project</summary>
 
-<br>
 
 - First download the parquet file from the OFF database available [here](https://huggingface.co/datasets/openfoodfacts/product-database/tree/main).
 
@@ -79,7 +78,7 @@ duckdb
 -- create a table from the parquet file
 CREATE TABLE IF NOT EXISTS off_french_food_analysis AS (
     SELECT g['unnest']['text'] AS product_name, {', '.join(FIELDS)}
-        FROM read_parquet('{parquet_filepath}') AS f,
+        FROM read_parquet('food.parquet') AS f,
         UNNEST(f.generic_name) AS g
         WHERE lang = 'fr' -- only keep french products
         AND obsolete IS FALSE
@@ -97,7 +96,6 @@ TO 'off_french_food_analysis.parquet' (FORMAT PARQUET);
 
 </details>
 
-<br>
 
 # References
 - [Open Food Facts](https://world.openfoodfacts.org/)
