@@ -1,0 +1,26 @@
+[project]
+name = "off_explorer"
+version = "0.1.0"
+authors = [
+    { name = "CAprogs", email = "cakotto@ippon.fr" }
+]
+description = "A simple streamlit app using Open Food Facts data"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+ "dotenv>=0.9.9",
+ "duckdb>=1.2.2",
+ "off_streamlit_app",
+]
+
+[dependency-groups]
+dev = [
+    "commitizen>=4.7.0",
+    "coverage>=7.8.0",
+    "pre-commit>=4.2.0",
+    "pytest>=8.3.5",
+    "pytest-mock>=3.14.0",
+]
+
+[tool.uv.sources]
+off-streamlit-app = { path = "./src/off_streamlit_app" }
