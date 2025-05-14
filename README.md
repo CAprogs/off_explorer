@@ -26,10 +26,15 @@ pip install -r requirements.txt
 # Running the app
 
 Please before running the app, ensure to export the `PYTHONPATH` environment variable to include the `src` directory by running :
+
 ```bash
 export PYTHONPATH="./src"
 ```
-If you are familiar with [direnv](https://direnv.net/), you can use it to automatically set the `PYTHONPATH` variable when you enter the project directory.
+
+If you are familiar with [direnv](https://direnv.net/), you can use it to automatically set the `PYTHONPATH` variable when you enter the project directory via the `.envrc` file.
+
+> The feature to automatically add a directory path to the `PYTHONPATH` via uv is discussed [here](https://github.com/astral-sh/uv/issues/11175).
+
 
 There is multiple ways to run this app :
 
@@ -47,46 +52,52 @@ python -m streamlit run app.py
 make app
 ```
 
-
-# License
-This project is licensed under the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for details.
-
-# Contributing
-
-Feel free to open issues or pull requests. Contributions are welcome!
-
 # Data extraction & analysis
 
-<details><summary>Reproducing the extracted data from this project</summary>
+### Reproducing the extracted data from this project
 
 
 - First download the parquet file from the OFF database available [here](https://huggingface.co/datasets/openfoodfacts/product-database/tree/main).
 
 - From there you can start exploring using [duckdb](https://duckdb.org/docs/stable/)
 
-Assuming you are using the CLI client of duckdb, you can run the following command to start exploring the data:
+Assuming you are using the CLI version of duckdb, you can run the following command to start exploring the data :
 
 ```bash
 # enter duckdb CLI
 duckdb
 
-# create a persistent database
+# create a persistent database named food.duckdb
 .open food.duckdb
 ```
 
 ```sql
+-- Print all available columns in the parquet file
+DESCRIBE read_parquet('food.parquet');
+
 -- create a table from the parquet file
 CREATE TABLE IF NOT EXISTS off_french_food_analysis AS (
-    SELECT g['unnest']['text'] AS product_name, {', '.join(FIELDS)}
+    SELECT g['unnest']['text'] AS product_name, 
+            brands AS brand, 
+            quantity,
+            nutriscore_grade AS nutriscore,
+            code AS barcode,
+            additives_n,
+            allergens_tags,
+            categories,
+            ingredients,
+            manufacturing_places,
+            owner,
+            stores
         FROM read_parquet('food.parquet') AS f,
-        UNNEST(f.generic_name) AS g
-        WHERE lang = 'fr' -- only keep french products
-        AND obsolete IS FALSE
-        AND completeness > 0.8
-        AND g['unnest']['lang'] = 'fr' -- only keep products with french description available
-        AND nutriscore_grade NOT IN ('not-applicable','unknown')
-        WHERE len(code) = 13 -- only keep products with a 13 digit code
-        ORDER BY nutriscore_grade DESC
+            UNNEST(f.generic_name) AS g
+            WHERE lang = 'fr' -- only keep french products
+            AND obsolete IS FALSE
+            AND completeness > 0.8
+            AND g['unnest']['lang'] = 'fr' -- only keep products with french description available
+            AND nutriscore_grade NOT IN ('not-applicable','unknown')
+            WHERE len(code) = 13 -- only keep products with a 13 digit code
+            ORDER BY nutriscore_grade DESC
         );
 
 -- export the table to a parquet file
@@ -94,7 +105,13 @@ COPY (SELECT * FROM off_french_food_analysis)
 TO 'off_french_food_analysis.parquet' (FORMAT PARQUET);
 ```
 
-</details>
+# License
+
+This project is licensed under the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for details.
+
+# Contributing
+
+Feel free to open issues or pull requests. Contributions are welcome !
 
 
 # References
