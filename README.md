@@ -1,3 +1,8 @@
+![GitHub](https://img.shields.io/github/license/CAprogs/off_explorer?color=blue)
+![Python Versions](https://img.shields.io/badge/python-3.12_|_3.13_|_3.14-blue)
+![CI status](https://img.shields.io/github/actions/workflow/status/CAprogs/off_explorer/ci.yml)
+[![codecov](https://codecov.io/gh/CAprogs/off_explorer/graph/badge.svg?token=4NNWO47JTH)](https://codecov.io/gh/CAprogs/off_explorer)
+
 # About
 A simple streamlit app based on open food facts data
 
@@ -7,49 +12,54 @@ The data displayed in this app is based on the [Open Food Facts](https://world.o
 # Prerequisites
 - [uv](https://docs.astral.sh/uv/getting-started/installation/) (recommended)
 - Python 3.12 or higher (can be installed via `uv python install 3.12`)
-- make (optional, for convenience)
+- make (optional but recommended for convenience)
 
-> On Windows, you can install `GNU Make` as mentioned [here](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows#:~:text=make%20is%20a,the%20previous%20choices.).
+> [!NOTE]
+> On Windows, you can install `GNU Make` as mentioned [here](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows#:~:text=make%20is%20a,the%20previous%20choices.). \
+> On Linux and MacOS, `Make` should be already installed by default.
 
 # Installation
 
-Using UV (recommended)
+Using _make_ (recommended)
 ```bash
-uv sync
+make install
 ```
 
-Using pip (within a virtual environment)
+Using uv (within a virtual environment)
 ```bash
+# Install python dependencies
 pip install -r requirements.txt
 ```
 
 # Running the app
 
-Please before running the app, ensure to export the `PYTHONPATH` environment variable to include the `src` directory by running :
 
-```bash
-export PYTHONPATH="./src"
-```
-
-If you are familiar with [direnv](https://direnv.net/), you can use it to automatically set the `PYTHONPATH` variable when you enter the project directory via the `.envrc` file.
-
-> The feature to automatically add a directory path to the `PYTHONPATH` via uv is discussed [here](https://github.com/astral-sh/uv/issues/11175).
+> [!IMPORTANT]
+> Please before running the app, ensure to export the `PYTHONPATH` environment variable to include the `src` directory by running :
+>
+>```bash
+>export PYTHONPATH="./src"
+>```
+>
+>If you are familiar with [direnv](https://direnv.net/), you can use it to automatically set the `PYTHONPATH` variable when you enter the project directory via the `.envrc` file.
+>
+>> The feature to automatically add a directory path to the `PYTHONPATH` via uv is currently discussed [here](https://github.com/astral-sh/uv/issues/11175).
 
 
 There is multiple ways to run this app :
 
 ```bash
-# using streamlit within your virtual environment
-streamlit run app.py
+# using the provided make command
+make app
 
 # using uv
 uv run streamlit app.py
 
+# using streamlit within your virtual environment
+streamlit run app.py
+
 # using python
 python -m streamlit run app.py
-
-# using the provided make command
-make app
 ```
 
 # Data extraction & analysis
@@ -77,8 +87,8 @@ DESCRIBE read_parquet('food.parquet');
 
 -- create a table from the parquet file
 CREATE TABLE IF NOT EXISTS off_french_food_analysis AS (
-    SELECT g['unnest']['text'] AS product_name, 
-            brands AS brand, 
+    SELECT g['unnest']['text'] AS product_name,
+            brands AS brand,
             quantity,
             nutriscore_grade AS nutriscore,
             code AS barcode,
@@ -107,7 +117,7 @@ TO 'off_french_food_analysis.parquet' (FORMAT PARQUET);
 
 # License
 
-This project is licensed under the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the [GNU General Public License v3.0](LICENSE).
 
 # Contributing
 
