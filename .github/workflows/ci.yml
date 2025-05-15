@@ -1,0 +1,48 @@
+
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python_versions: ['3.12', '3.13', '3.14']
+    env:
+      PYTHONPATH: "./src/"
+      PRECOMMIT_CI_CONFIG: ".pre-commit-ci.yaml"
+      PYTHON: ${{ matrix.python_versions }}
+
+    steps:
+      - name: Check out ${{ github.repository }} repository code
+        uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.7.x"
+          enable-cache: true
+          cache-dependency-glob: |
+            **/pyproject.toml
+            **/uv.lock
+      - name: Install Python ${{ env.PYTHON }}
+        run: uv python install ${{ env.PYTHON }}
+      - name: Sync Python environment
+        run: uv sync
+      - name: Install pre-commit hooks
+        run: uv run pre-commit install --install-hooks
+      - name: Run pre-commit CI related hooks for code quality checks
+        run: uv run pre-commit run --all-files -c ${{ env.PRECOMMIT_CI_CONFIG }}
+      - name: Run unit tests and generate coverage report
+        run: uv run pytest --cov --cov-branch --cov-report=xml
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          env_vars: PYTHON
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: CAprogs/${{ github.repository }}

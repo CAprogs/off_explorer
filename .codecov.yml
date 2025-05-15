@@ -1,0 +1,5 @@
+coverage:
+  target: 90%
+  threshold: 3%
+  range: 60..80
+  precision: 2
