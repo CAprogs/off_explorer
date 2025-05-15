@@ -109,3 +109,11 @@ quote-style = "double"
 indent-style = "space"
 skip-magic-trailing-comma = true
 line-ending = "auto"
+
+[tool.commitizen]
+# see https://commitizen-tools.github.io/commitizen/config/
+name = "cz_conventional_commits"
+tag_format = "$version"
+version_scheme = "semver2"
+version = "0.1.0"
+update_changelog_on_bump = true
