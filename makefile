@@ -24,6 +24,8 @@ tag:
 test:
 	@echo "Running tests..."
 	@pytest
+	@echo "Validating codecov configuration..."
+	@curl --data-binary @.codecov.yml https://codecov.io/validate
 	@echo "Tests completed."
 
 app:
