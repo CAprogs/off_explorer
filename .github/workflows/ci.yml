@@ -45,4 +45,4 @@ jobs:
         with:
           env_vars: PYTHON
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: CAprogs/${{ github.repository }}
+          slug: ${{ github.repository }}
