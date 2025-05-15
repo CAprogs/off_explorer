@@ -1,0 +1,40 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+default_install_hook_types: [pre-commit, pre-push, commit-msg]
+default_stages: [pre-commit]
+
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v5.0.0
+  hooks:
+    - id: check-json
+    - id: check-toml
+    - id: check-ast
+    - id: detect-private-key
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+    - id: check-symlinks
+    - id: name-tests-test
+      args: [ --pytest-test-first ]
+    - id: requirements-txt-fixer
+- repo: https://github.com/asottile/pyupgrade
+  rev: v3.19.1
+  hooks:
+    - id: pyupgrade
+- repo: https://github.com/gitleaks/gitleaks
+  rev: v8.25.1
+  hooks:
+    - id: gitleaks
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.11.9
+  hooks:
+    - id: ruff            # run the linter without fixing, equivalent to `ruff check`
+    - id: ruff-format
+      args: [ --check ]   # won't format, check for potential formatting issues
+- repo: https://github.com/pre-commit/mirrors-mypy
+  rev: v1.15.0
+  hooks:
+    - id: mypy
+      verbose: true
+      args: [ --install-types, --non-interactive, --pretty, --disallow-untyped-defs, --strict-equality,  --warn-no-return, --ignore-missing-imports ]
