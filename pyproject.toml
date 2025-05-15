@@ -15,12 +15,97 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "commitizen>=4.7.0",
-    "coverage>=7.8.0",
     "pre-commit>=4.2.0",
     "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
     "pytest-mock>=3.14.0",
 ]
 
 [tool.uv.sources]
 off-streamlit-app = { path = "./src/off_streamlit_app" }
+
+[tool.ruff]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+    ".pytest_cache",
+    "__pycache__",
+]
+fix = false
+required-version = ">=0.6.8"
+line-length = 120
+indent-width = 4
+output-format = "concise"
+
+[tool.ruff.lint]
+select = [
+        "E4",
+        "E5",
+        "E7",
+        "F",
+        "UP",
+        "D",
+        "N",
+        "S",
+        "B",
+        "PT",
+        "RUF005",
+        "RUF019",
+        "PLR1711",
+        "PLR1722",
+        "PLR1730",
+        "PLR2044",
+        "PLR5501",
+        "ARG"
+        ]
+ignore = ["D300", "D206", "S608"]
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402", "D104"]
+"tests/*" = ["E501", "D103", "D100", "S101"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.isort]
+lines-after-imports = 2
+length-sort-straight = true
+length-sort = true
+no-sections = true
+
+[tool.ruff.lint.flake8-pytest-style]
+parametrize-names-type = "list"
+parametrize-values-row-type = "tuple"
+
+[tool.ruff.format]
+exclude = ["__init__.py"]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = true
+line-ending = "auto"
