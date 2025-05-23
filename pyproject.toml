@@ -8,13 +8,15 @@ description = "A simple streamlit app using Open Food Facts data"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
- "dotenv>=0.9.9",
  "duckdb>=1.2.2",
  "off_streamlit_app",
+ "pandas>=2.2.3",
+ "streamlit>=1.45.1",
 ]
 
 [dependency-groups]
 dev = [
+    "deptry>=0.23.0",
     "pre-commit>=4.2.0",
     "pytest>=8.3.5",
     "pytest-cov>=6.1.1",

@@ -21,10 +21,6 @@ repos:
     - id: no-commit-to-branch
       args: [ -b , main ]
     - id: requirements-txt-fixer
-- repo: https://github.com/asottile/pyupgrade
-  rev: v3.19.1
-  hooks:
-    - id: pyupgrade
 - repo: https://github.com/gitleaks/gitleaks
   rev: v8.26.0
   hooks:
@@ -48,3 +44,7 @@ repos:
       stages: [commit-msg]
     - id: commitizen-branch
       stages: [pre-push]
+- repo: https://github.com/fpgmaas/deptry.git
+  rev: "0.23.0"
+  hooks:
+    - id: deptry
