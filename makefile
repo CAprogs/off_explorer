@@ -3,15 +3,14 @@
 
 install:## install only necessary dependencies
 	@echo "\nInstalling Dependencies .."
-	@uv --version
 	@uv lock --check
-	@uv sync --no-dev
+	@uv sync --frozen --no-dev
 	@echo "Done."
 
 
 install-all:## install all dependencies including dev
 	@echo "Installing all dependencies..."
-	@uv sync --all-groups
+	@uv sync --frozen --all-groups
 	@echo "\nCleaning pre-commit cache.."
 	@uv run pre-commit gc
 	@echo "\nInstalling pre-commit hooks.."

@@ -1,7 +1,15 @@
-![GitHub](https://img.shields.io/github/license/CAprogs/off_explorer?color=blue)
-![Python Versions](https://img.shields.io/badge/python-3.12_|_3.13_|_3.14-blue)
+<div align="center">
+
+<img width="500" alt="App Logo" src="logo.png">
+
+---
 ![CI status](https://img.shields.io/github/actions/workflow/status/CAprogs/off_explorer/ci.yml)
 [![codecov](https://codecov.io/gh/CAprogs/off_explorer/graph/badge.svg?token=4NNWO47JTH)](https://codecov.io/gh/CAprogs/off_explorer)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
+![Python Versions](https://img.shields.io/badge/python-3.12_|_3.13_|_3.14-blue)
+![GitHub](https://img.shields.io/github/license/CAprogs/off_explorer?color=blue)
+
+</div>
 
 # About
 A simple streamlit app based on open food facts data
@@ -10,25 +18,24 @@ The data displayed in this app is based on the [Open Food Facts](https://world.o
 
 
 # Prerequisites
-- [uv](https://docs.astral.sh/uv/getting-started/installation/) (recommended)
+- [uv](https://docs.astral.sh/uv/getting-started/installation/)
 - Python 3.12 or higher (can be installed via `uv python install 3.12`)
-- make (optional but recommended for convenience)
+- make (highly recommended)
 
 > [!NOTE]
 > On Windows, you can install `GNU Make` as mentioned [here](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows#:~:text=make%20is%20a,the%20previous%20choices.). \
-> On Linux and MacOS, `Make` should be already installed by default.
+> On Linux and MacOS, `Make` should be installed by default.
 
 # Installation
 
-Using _make_ (recommended)
+Using _make_
 ```bash
 make install
 ```
 
-Using uv (within a virtual environment)
+Using _uv_
 ```bash
-# Install python dependencies
-pip install -r requirements.txt
+uv sync --frozen --no-dev
 ```
 
 # Running the app
@@ -57,9 +64,6 @@ uv run streamlit app.py
 
 # using streamlit within your virtual environment
 streamlit run app.py
-
-# using python
-python -m streamlit run app.py
 ```
 
 # Data extraction & analysis
@@ -67,11 +71,11 @@ python -m streamlit run app.py
 ### Reproducing the extracted data from this project
 
 
-- First download the parquet file from the OFF database available [here](https://huggingface.co/datasets/openfoodfacts/product-database/tree/main).
+- First download the **parquet file** from the OFF database available [here](https://huggingface.co/datasets/openfoodfacts/product-database/tree/main).
 
 - From there you can start exploring using [duckdb](https://duckdb.org/docs/stable/)
 
-Assuming you are using the CLI version of duckdb, you can run the following command to start exploring the data :
+Assuming you are using the [CLI version](https://duckdb.org/docs/stable/installation/index) of duckdb, you can run the following command to start exploring the data :
 
 ```bash
 # enter duckdb CLI
