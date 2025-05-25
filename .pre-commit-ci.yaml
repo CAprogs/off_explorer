@@ -18,10 +18,6 @@ repos:
     - id: name-tests-test
       args: [ --pytest-test-first ]
     - id: requirements-txt-fixer
-- repo: https://github.com/asottile/pyupgrade
-  rev: v3.19.1
-  hooks:
-    - id: pyupgrade
 - repo: https://github.com/gitleaks/gitleaks
   rev: v8.25.1
   hooks:
