@@ -3,7 +3,7 @@
 import duckdb
 import streamlit as st
 from typing import Any
-import pandas
+import pandas as pd
 
 
 def process_ean13(barcode: str) -> str:
@@ -22,14 +22,14 @@ def fetch_nutricore_color(nutriscore: str) -> str:
     return nutriscore_colors.get(nutriscore.lower(), "#808080")
 
 
-def value_isin_df(df: pandas.DataFrame, column: str, value: str, reader: Any = duckdb.sql) -> bool:
+def value_isin_df(df: pd.DataFrame, column: str, value: str, reader: Any = duckdb.sql) -> bool:
     """Check if a value is in a specific column of a DataFrame."""
     df = df
     return reader(f"SELECT {column} FROM df WHERE {column} = '{value}'").fetchone() is not None
 
 
 @st.cache_data
-def fetch_product_details(df: pandas.DataFrame, barcode: str, reader: Any = duckdb.sql) -> dict[str, str]:
+def fetch_product_details(df: pd.DataFrame, barcode: str, reader: Any = duckdb.sql) -> dict[str, str]:
     """Get product details from a DataFrame based on a barcode."""
     df = df
     query = f"SELECT product_name, brand, quantity, nutriscore FROM df WHERE barcode = '{barcode}'"
@@ -41,7 +41,7 @@ def fetch_product_details(df: pandas.DataFrame, barcode: str, reader: Any = duck
 
 
 @st.cache_data
-def fetch_data(reader: Any = duckdb.sql, data_path: str = "data.parquet") -> pandas.DataFrame:
+def fetch_data(reader: Any = duckdb.sql, data_path: str = "data.parquet") -> pd.DataFrame:
     """Fetch data from a Parquet file using DuckDB."""
     query = f"""SELECT product_name,
                       brand,
@@ -53,7 +53,7 @@ def fetch_data(reader: Any = duckdb.sql, data_path: str = "data.parquet") -> pan
     return data.df()
 
 
-def process_barcode(barcode: str, df: pandas.DataFrame, warn: Any = st.warning) -> tuple[str | None, dict[str, str]]:
+def process_barcode(barcode: str, df: pd.DataFrame, warn: Any = st.warning) -> tuple[str | None, dict[str, str]]:
     """Process the barcode input from the user."""
     product_details = fetch_product_details(df, barcode)
     if barcode.isdigit() and value_isin_df(df, "barcode", barcode) and len(barcode) == 13:
